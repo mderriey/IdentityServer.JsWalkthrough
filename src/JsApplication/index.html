@@ -36,9 +36,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">ID Token Contents</div>
+                    <div class="panel-heading">User data</div>
                     <div class="panel-body">
-                        <pre class="js-id-token"></pre>
+                        <pre class="js-user"></pre>
                     </div>
                 </div>
             </div>
@@ -48,5 +48,46 @@
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="node_modules/oidc-client/dist/oidc-client.js"></script>
+
+    <script>
+        // helper function to show data to the user
+        function display(selector, data) {
+            if (data && typeof data === 'string') {
+                data = JSON.parse(data);
+            }
+            if (data) {
+                data = JSON.stringify(data, null, 2);
+            }
+
+            $(selector).text(data);
+        }
+
+        var settings = {
+            authority: 'https://localhost:44300',
+            client_id: 'js',
+            popup_redirect_uri: 'http://localhost:56668/popup.html',
+
+            response_type: 'id_token',
+            scope: 'openid profile',
+
+            filterProtocolClaims: true
+        };
+
+        var manager = new Oidc.UserManager(settings);
+        var user;
+
+        manager.events.addUserLoaded(function (loadedUser) {
+            user = loadedUser;
+            display('.js-user', user);
+        });
+
+        $('.js-login').click(function () {
+            manager
+                .signinPopup()
+                .catch(function (error) {
+                    console.error('error while logging in through the popup', error);
+                });
+        });
+    </script>
 </body>
 </html>
