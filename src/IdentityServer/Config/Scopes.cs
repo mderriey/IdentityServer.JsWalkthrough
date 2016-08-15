@@ -10,7 +10,8 @@
             return new List<Scope>
             {
                 StandardScopes.OpenId,
-                StandardScopes.Profile
+                StandardScopes.Profile,
+                StandardScopes.Email
             };
         }
     }
