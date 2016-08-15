@@ -26,7 +26,8 @@
                         "http://localhost:56668"
                     },
 
-                    AllowAccessToAllScopes = true
+                    AllowAccessToAllScopes = true,
+                    AccessTokenLifetime = 10
                 }
             };
         }
