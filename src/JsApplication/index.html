@@ -99,7 +99,7 @@
             console.error('error while renewing the access token', error);
         });
 
-        $('.js-login').click(function () {
+        $('.js-login').on('click', function () {
             manager
                 .signinPopup()
                 .catch(function (error) {
@@ -107,7 +107,7 @@
                 });
         });
 
-        $('.js-call-api').click(function () {
+        $('.js-call-api').on('click', function () {
             var headers = {};
             if (user && user.access_token) {
                 headers['Authorization'] = 'Bearer ' + user.access_token;
