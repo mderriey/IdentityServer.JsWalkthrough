@@ -76,9 +76,13 @@
             authority: 'https://localhost:44300',
             client_id: 'js',
             popup_redirect_uri: 'http://localhost:56668/popup.html',
+            silent_redirect_uri: 'http://localhost:56668/silent-renew.html',
 
             response_type: 'id_token token',
             scope: 'openid profile email api',
+
+            accessTokenExpiringNotificationTime: 4,
+            automaticSilentRenew: true,
 
             filterProtocolClaims: true
         };
@@ -89,6 +93,10 @@
         manager.events.addUserLoaded(function (loadedUser) {
             user = loadedUser;
             display('.js-user', user);
+        });
+
+        manager.events.addSilentRenewError(function (error) {
+            console.error('error while renewing the access token', error);
         });
 
         $('.js-login').click(function () {
