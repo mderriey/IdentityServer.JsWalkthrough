@@ -92,6 +92,8 @@
         var manager = new Oidc.UserManager(settings);
         var user;
 
+        Oidc.Log.logger = console;
+
         manager.events.addUserLoaded(function (loadedUser) {
             user = loadedUser;
             display('.js-user', user);
@@ -99,6 +101,10 @@
 
         manager.events.addSilentRenewError(function (error) {
             console.error('error while renewing the access token', error);
+        });
+
+        manager.events.addUserSignedOut(function () {
+            alert('The user has signed out');
         });
 
         $('.js-login').on('click', function () {
